@@ -4,9 +4,10 @@ Aplikacja pobiera od użytkwonika nazwę filmu/serialu i wyświetla do 10 tytuł
 
 Aplikacja składa się z kilku klas i bazuje na api, kluczowe pliki:
 App.js
-class App extends React.Component {
-  state = { movies: []  };
- //Zapytanie do api
+
+    class App extends React.Component {
+      state = { movies: []  };
+     //Zapytanie do api
  
  
     onSearchSubmit = (term) => {
