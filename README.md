@@ -1,70 +1,89 @@
-# Getting Started with Create React App
+# Projekt wyszukiwarki filmów i seriali imdb api
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplikacja pobiera od użytkwonika nazwę filmu/serialu i wyświetla do 10 tytułów wraz z plakatem oraz linkiem do strony imdb danego filmu.
 
-## Available Scripts
+Aplikacja składa się z kilku klas i bazuje na api, kluczowe pliki:
+App.js
+class App extends React.Component {
+  state = { movies: []  };
+ //Zapytanie do api
+  onSearchSubmit = (term) => {
+    axios
+      .get("https://imdb-api.com/en/API/Search/k_bn3twrog/"+term , { params: {
 
-In the project directory, you can run:
+        query: term
 
-### `npm start`
+      }})
+    //zwrócenie resultadów i przekaznie danych do stałej movies  
+      .then((result) => {
+       this.setState({ movies: result.data.results });
+      });
+      
+  };
+ 
+// zwórcene danych z Scharbar.js i Movies.js
+  render(){
+  return (
+    <div className="ui container" >
+      <SearchBar onSearchSubmit={this.onSearchSubmit} />
+      <Movies movies={this.state.movies} />
+    </div>
+  );
+  }
+}
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Scharbar.js
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+class SearchBar extends React.Component {
+  state = { term: '' };
+  //przekazanie tekstu do zmieneje zatwierdzeniu eneterem 
+  onInputChange = (event) => {
+    this.setState({ term: event.target.value });
+  };
+ 
+  onFormSubmit = (event) => {
+    event.preventDefault();
+    this.props.onSearchSubmit(this.state.term);
+  };
 
-### `npm test`
+ // zwrócenie  inputa do podania tekstu
+  render() {
+    return (
+      <div id="szukajtlo" className="ui segment">
+        <form  className="ui form" onSubmit={this.onFormSubmit}>
+          <div  className="field">
+            <p id="szukajtlo">Jaki film, serial szukasz ?</p>
+            <input id="szukaj"
+              type="text"
+              onChange={this.onInputChange}
+              value={this.state.term}
+            />
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Movie.js
+//stworzenie listy i przekazanie do nich danych z movies[]
+const MoviesList = (props) => {
+    const list = props.movies.map((movie) => {
+      //wypisanie danych pobranych z api 
+      return (
+        
+        <div class="body" >
+        <p>{movie.title}  </p>
+        <div class="zdjtlo">
+        <img   
+        src={movie.image} 
+      />
+      <div class="link"><a href={`https://www.imdb.com/title/${movie.id}`} target="_blank">Go to site</a></div>
+      </div>
+      </div>
+      
+      );
+    });
+  
+    return <div>{list}</div>;
+  };
