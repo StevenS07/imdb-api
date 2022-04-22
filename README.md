@@ -36,7 +36,7 @@ App.js
       }
     }
 
-Scharbar.js
+SeachrBar.js
 
     class SearchBar extends React.Component {
       state = { term: '' };
@@ -69,7 +69,7 @@ Scharbar.js
       }
     }
 
-Movie.js
+Movies.js
     
     //stworzenie listy i przekazanie do nich danych z movies[]
     const MoviesList = (props) => {
