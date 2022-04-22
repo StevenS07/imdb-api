@@ -1,8 +1,9 @@
 # Projekt wyszukiwarki filmów i seriali imdb api
 
-Aplikacja pobiera od użytkwonika nazwę filmu/serialu i wyświetla do 10 tytułów wraz z plakatem oraz linkiem do strony imdb danego filmu.
+Aplikacja pobiera od użytkownika nazwę filmu/serialu i wyświetla do 10 tytułów wraz z plakatem oraz linkiem do strony imdb danego filmu.
 
-Aplikacja składa się z kilku klas i bazuje na api, kluczowe pliki:
+Aplikacja składa się z kilku klas i bazuje na api.
+
 App.js
 
     class App extends React.Component {
