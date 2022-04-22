@@ -18,14 +18,14 @@ App.js
           query: term
 
         }})
-      //zwrócenie resultadów i przekaznie danych do stałej movies  
+      //zwrócenie result i przekaznie danych do stałej movies  
         .then((result) => {
          this.setState({ movies: result.data.results });
         });
 
     };
  
-    // zwórcene danych z Scharbar.js i Movies.js
+    // zwórcene danych z Searchbar.js i Movies.js
       render(){
       return (
         <div className="ui container" >
@@ -40,7 +40,7 @@ SeachrBar.js
 
     class SearchBar extends React.Component {
       state = { term: '' };
-      //przekazanie tekstu do zmieneje zatwierdzeniu eneterem 
+      //przekazanie tekstu do zmieneje po zatwierdzeniu eneterem 
       onInputChange = (event) => {
         this.setState({ term: event.target.value });
       };
